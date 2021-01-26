@@ -38,7 +38,6 @@ SOURCES += \
     can/MyMaster.c \
     can/controllerbase.cpp \
     can/fakeservo.cpp \
-    can/lib/objectdictionary.cpp \
     can/servocontroller.cpp \
     frames/canconfigframe.cpp \
     frames/configframebase.cpp \
@@ -97,7 +96,6 @@ HEADERS += \
     can/MyMaster.h \
     can/controllerbase.h \
     can/fakeservo.h \
-    can/lib/objectdictionary.h \
     can/servocontroller.h \
     frames/canconfigframe.h \
     frames/configframebase.h \

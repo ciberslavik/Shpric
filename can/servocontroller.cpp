@@ -223,7 +223,9 @@ ServoController::ServoController(IOBase *io, QObject *parent):
     MyMaster_Data.post_emcy = post_emcy;
     MyMaster_Data.post_SlaveBootup = post_SlaveBootup;
     MyMaster_Data.post_SlaveStateChange = post_SlaveStateChanged;
-    *MyMaster_Data.Sync_Cycle_Period = 8;
+    *MyMaster_Data.Sync_Cycle_Period = 4;
+    
+    //I201MotionStatusByte_
     _co_data = &MyMaster_Data;
     ControllerBase::setInstance(this);
     _masterSyncCount=0;
