@@ -131,10 +131,6 @@ void SwiperLogic::pauseTimeout()
 }
 
 
-bool SwiperLogic::setPressetConfig()
-{
-}
-
 void SwiperLogic::DoFirstPortion()
 {
     qDebug()<<"First Portion";

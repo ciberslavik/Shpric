@@ -17,13 +17,13 @@ public:
         {
             if(!_pressetConfig->isEqual(config))
             {
-                _pressetConfig = new PressetConfig(*config);
+                _pressetConfig = config->Copy();
                 onPressedConfigChanged();
             }
         }
         else
         {
-            _pressetConfig = new PressetConfig(*config);
+            _pressetConfig = config->Copy();
             onPressedConfigChanged();
         }
     }

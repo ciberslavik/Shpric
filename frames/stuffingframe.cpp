@@ -9,6 +9,7 @@ StuffingFrame::StuffingFrame(QWidget *parent) :
 {
     ui->setupUi(this);
     connect(ui->txtTemp, &QClickableLineEdit::clicked, this, &StuffingFrame::onTxtClicked);
+    connect(ui->txtReverse, &QClickableLineEdit::clicked, this, &StuffingFrame::onTxtClicked);
 }
 
 StuffingFrame::~StuffingFrame()

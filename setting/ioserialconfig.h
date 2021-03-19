@@ -193,7 +193,6 @@ public:
 
     // AbstractConfig interface
 public:
-    AbstractConfig *CreateDefaultConfig() override;
     int CycleTime() const
     {
         return m_CycleTime;

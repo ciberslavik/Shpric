@@ -25,7 +25,8 @@ Logic SelectLogicDialog::getSelectedLogic()
         return Logic::Portion;
     else if(ui->cbLogic->currentIndex()==2)
         return Logic::Swiper;
-
+    else
+        return Logic::None;
 }
 
 void SelectLogicDialog::on_btnPrev_released()

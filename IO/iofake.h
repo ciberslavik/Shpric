@@ -31,7 +31,7 @@ private:
     int _cycleTime;
     QTimer _cycleTimer;
     QTimer _swiperTimer;
-
+    QBitArray _outs;
     // IOBase interface
 public slots:
     QBitArray getOutputs() override;

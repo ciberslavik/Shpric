@@ -36,7 +36,7 @@ MainFrame::MainFrame(Machine *machine, QWidget *parent) :
     _machine = machine;
 
 
-    PressetConfig *lastPresset = SettingStorage::instance()->getLastPresset();
+    PressetConfig *lastPresset = SettingStorage::instance()->getLastPresset(Logic::Swiper);
 
     if(lastPresset==nullptr)
     {
@@ -50,8 +50,6 @@ MainFrame::MainFrame(Machine *machine, QWidget *parent) :
 
     ui->btnPedal0->setChecked(true);
 
-
-    _machine->LoadLogicPresset(lastPresset);
 
     ui->txtPressetName->setText(lastPresset->PressetName());
     //ui->btnPortion->setEnabled(false);
@@ -79,8 +77,24 @@ void MainFrame::on_btnStuffing_toggled(bool toggled)
 {
     if(toggled)
     {
-        PressetConfig *presset = SettingStorage::instance()->getFirsLogic(Logic::Stuffing);
-        setPressetFrame(presset);
+        PressetConfig *presset = SettingStorage::instance()->getLastPresset(Logic::Stuffing);
+        if(presset != nullptr)
+        {
+            if(presset->Logic() == (int)Logic::Stuffing)
+            {
+                setPressetFrame(presset);
+            }
+            else
+            {
+                presset = SettingStorage::instance()->getFirsLogic(Logic::Stuffing);
+                setPressetFrame(presset);
+            }
+        }
+        else
+        {
+            presset = SettingStorage::instance()->getFirsLogic(Logic::Stuffing);
+            setPressetFrame(presset);
+        }
         _machine->LoadLogicPresset(presset);
     }
 }
@@ -89,8 +103,24 @@ void MainFrame::on_btnPortion_toggled(bool toggled)
 {
     if(toggled)
     {
-        PressetConfig *presset = SettingStorage::instance()->getFirsLogic(Logic::Portion);
-        setPressetFrame(presset);
+        PressetConfig *presset = SettingStorage::instance()->getLastPresset(Logic::Portion);
+        if(presset != nullptr)
+        {
+            if(presset->Logic() == (int)Logic::Portion)
+            {
+                setPressetFrame(presset);
+            }
+            else
+            {
+                presset = SettingStorage::instance()->getFirsLogic(Logic::Portion);
+                setPressetFrame(presset);
+            }
+        }
+        else
+        {
+            presset = SettingStorage::instance()->getFirsLogic(Logic::Portion);
+            setPressetFrame(presset);
+        }
         _machine->LoadLogicPresset(presset);
     }
 }
@@ -99,8 +129,24 @@ void MainFrame::on_btnSwiper_toggled(bool toggled)
 {
     if(toggled)
     {
-        PressetConfig *presset = SettingStorage::instance()->getFirsLogic(Logic::Swiper);
-        setPressetFrame(presset);
+        PressetConfig *presset = SettingStorage::instance()->getLastPresset(Logic::Swiper);
+        if(presset != nullptr)
+        {
+            if(presset->Logic() == (int)Logic::Swiper)
+            {
+                setPressetFrame(presset);
+            }
+            else
+            {
+                presset = SettingStorage::instance()->getFirsLogic(Logic::Swiper);
+                setPressetFrame(presset);
+            }
+        }
+        else
+        {
+            presset = SettingStorage::instance()->getFirsLogic(Logic::Swiper);
+            setPressetFrame(presset);
+        }
         _machine->LoadLogicPresset(presset);
     }
 }
@@ -166,13 +212,19 @@ void MainFrame::setPressetFrame(PressetConfig *presset)
         case Logic::Portion:
             _currentFrame = new PortionFrame(ui->PressetFrame);
             break;
+        case Logic::None:
+            _currentFrame = nullptr;
+            break;
         }
     }
-    _currentFrame->setPressetConfig(presset);
-    ui->txtPressetName->setText(presset->PressetName());
+    if(_currentFrame != nullptr)
+    {
+        _currentFrame->setPressetConfig(presset);
+        ui->txtPressetName->setText(presset->PressetName());
 
-    _frameSignals.push(connect(_currentFrame,&FrameBase::PressetChanged, this, &MainFrame::onPressetChanged));
-    _currentFrame->showMaximized();
+        _frameSignals.push(connect(_currentFrame,&FrameBase::PressetChanged, this, &MainFrame::onPressetChanged));
+        _currentFrame->showMaximized();
+    }
 }
 
 void MainFrame::deleteCurrentFrame()
@@ -204,6 +256,8 @@ void MainFrame::toggleLogicButton(Logic_t logic)
 
     case Logic::Portion:
         ui->btnPortion->toggle();
+        break;
+    case Logic::None:
         break;
     }
 }

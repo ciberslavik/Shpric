@@ -1,7 +1,7 @@
 #include "machinecontroller.h"
 #include <QDebug>
 #include <QThread>
-#include <can/servocontroller.h>
+//#include <can/servocontroller.h>
 #include "IO/iobase.h"
 
 MachineController::MachineController(MachineConfig *config, IOBase *io, ControllerBase *servo, QObject *parent):

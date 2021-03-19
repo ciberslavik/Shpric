@@ -35,6 +35,7 @@ void SelectSettingFrame::on_btnReturn_released()
 
 void SelectSettingFrame::on_btnModbus_toggled(bool checked)
 {
+    Q_UNUSED(checked)
     removeCurrentFrame();
     _currentFrame = new ModbusConfigFrame(SettingStorage::instance()->getConfig("IOSerialConfig"),ui->frame);
     showCurrentFrame();
@@ -42,11 +43,12 @@ void SelectSettingFrame::on_btnModbus_toggled(bool checked)
 
 void SelectSettingFrame::on_btnCANBus_toggled(bool checked)
 {
-
+    Q_UNUSED(checked)
 }
 
 void SelectSettingFrame::on_btnMachine_toggled(bool checked)
 {
+    Q_UNUSED(checked)
     removeCurrentFrame();
     _currentFrame = new MachineConfigFrame(SettingStorage::instance()->getConfig("MachineConfig"),ui->frame);
     showCurrentFrame();

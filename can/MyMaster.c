@@ -97,7 +97,7 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                      };
 
 /* index 0x1006 :   Communication / Cycle Period. */
-                    UNS32 MyMaster_obj1006 = 0x0;	/* 0 */
+                    UNS32 MyMaster_obj1006 = 0xFF50;	/* 50000 */
                     ODCallback_t MyMaster_Index1006_callbacks[] = 
                      {
                        NULL,
@@ -153,7 +153,7 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 /* index 0x1400 :   Receive PDO 1 Parameter. */
                     UNS8 MyMaster_highestSubIndex_obj1400 = 6; /* number of subindex - 1*/
-                    UNS32 MyMaster_obj1400_COB_ID_used_by_PDO = 0x200;	/* 512 */
+                    UNS32 MyMaster_obj1400_COB_ID_used_by_PDO = 0x201;	/* 512 */
                     UNS8 MyMaster_obj1400_Transmission_Type = 0x1;	/* 1 */
                     UNS16 MyMaster_obj1400_Inhibit_Time = 0x0;	/* 0 */
                     UNS8 MyMaster_obj1400_Compatibility_Entry = 0x0;	/* 0 */
@@ -186,7 +186,7 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 /* index 0x1800 :   Transmit PDO 1 Parameter. */
                     UNS8 MyMaster_highestSubIndex_obj1800 = 6; /* number of subindex - 1*/
-                    UNS32 MyMaster_obj1800_COB_ID_used_by_PDO = 0x180;	/* 384 */
+                    UNS32 MyMaster_obj1800_COB_ID_used_by_PDO = 0x181;	/* 384 */
                     UNS8 MyMaster_obj1800_Transmission_Type = 0x0;	/* 0 */
                     UNS16 MyMaster_obj1800_Inhibit_Time = 0x0;	/* 0 */
                     UNS8 MyMaster_obj1800_Compatibility_Entry = 0x0;	/* 0 */
@@ -294,6 +294,10 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                      };
 
 /* index 0x6041 :   Mapped variable Statusword */
+                    ODCallback_t Statusword_callbacks[] = 
+                     {
+                       NULL,
+                     };
                     subindex MyMaster_Index6041[] = 
                      {
                        { RO, uint16, sizeof (UNS16), (void*)&Statusword }
@@ -353,7 +357,7 @@ const indextable * MyMaster_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODCall
 		case 0x30D5: i = 17;break;
 		case 0x30D7: i = 18;break;
 		case 0x6040: i = 19;break;
-		case 0x6041: i = 20;break;
+		case 0x6041: i = 20;*callbacks = Statusword_callbacks; break;
 		default:
 			*errorCode = OD_NO_SUCH_OBJECT;
 			return NULL;

@@ -102,10 +102,6 @@ bool PortionLogic::CheckLogicPresset(PressetConfig *presset)
         return false;
 }
 
-bool PortionLogic::setPressetConfig()
-{
-    return true;
-}
 
 void PortionLogic::pauseTimeout()
 {

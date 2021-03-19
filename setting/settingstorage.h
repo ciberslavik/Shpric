@@ -48,7 +48,7 @@ public:
     PressetConfig *getPressetConfig(QString pressetName);
     PressetConfig *getFirstPresset();
     PressetConfig *getFirsLogic(Logic logic);
-    PressetConfig *getLastPresset();
+    PressetConfig *getLastPresset(Logic logic);
     void setLastPresset(PressetConfig *lastPresset);
     PressetConfig *createPressetConfig(QString pressetName);
     void addPresset(PressetConfig *presset);
@@ -81,7 +81,7 @@ private:
 
     QMap<QString, PressetConfig*> _pressets;
     //ModbusConfig *_modbus = nullptr;
-    PressetConfig *_lastPresset;
+    PressetConfig *_lastPressets[4];
 };
 
 #endif // SETTINGSTORAGE_H

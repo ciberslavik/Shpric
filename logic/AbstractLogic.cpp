@@ -11,7 +11,6 @@ bool AbstractLogic::LoadPresset(PressetConfig *presset)
     if((_presset == nullptr)||(_presset != presset))
     {
         _presset = presset;
-        setPressetConfig();
         emit LogicPressetChanged();
         return true;
     }

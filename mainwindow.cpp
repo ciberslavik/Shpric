@@ -6,19 +6,26 @@
 
 #include <Dialogs/inputtextdialog.h>
 
+#include <setting/settingstorage.h>
+
+#include <can/StoberServo.h>
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     _currentFrame(nullptr),
     _prevFrame(nullptr),
     _currentGrid(nullptr),
-    _machine(nullptr),
     _mainFrame(nullptr),
     _selectSettingFrame(nullptr),
     _stbyFrame(nullptr)
 {
-    ui->setupUi(this);
+    ui->setupUi((QMainWindow*)this);
     _currentGrid = new QGridLayout(ui->mainFrame);
+
+
+
+
 
     showStbyFrame();
 
@@ -29,10 +36,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::setMachine(Machine *machine)
-{
-    _machine = machine;
-}
 
 void MainWindow::onEnableOperation()
 {
@@ -65,13 +68,13 @@ void MainWindow::createMainFrame()
 {
     if(_mainFrame!=nullptr)
         return;
-    MainFrame *frame = new MainFrame(_machine,ui->mainFrame);
+    MainFrame *frame = new MainFrame(_machine, ui->mainFrame);
 
 
     connect(frame, &MainFrame::DisableOperation, this, &MainWindow::onDisableOperation);
     connect(frame, &MainFrame::SettingCalled, this, &MainWindow::onSettingCalled);
 
-    _mainFrame = frame;
+    _mainFrame = (QWidget*)frame;
 }
 
 void MainWindow::createStbyFrame()
@@ -119,7 +122,7 @@ void MainWindow::setCurrentFrame(QWidget *frame)
 {
     if(_currentFrame != nullptr)
     {
-        _currentGrid->removeWidget(_currentFrame);
+        ((QLayout*)_currentGrid)->removeWidget(_currentFrame);
         _currentFrame->close();
         _prevFrame = _currentFrame;
     }
@@ -127,4 +130,30 @@ void MainWindow::setCurrentFrame(QWidget *frame)
     frame->showMaximized();
 
     _currentFrame = frame;
+}
+
+void MainWindow::showEvent(QShowEvent *e)
+{
+    Q_UNUSED(e)
+    if(_firstShow)
+    {
+        _mConfig = static_cast<MachineConfig*>
+                (SettingStorage::instance()->getConfig("MachineConfig"));
+
+        _device = new Device();
+        _device->setSlaveID(1);
+        _device->Init(DriverType::Socket, "can0");
+        _device->setSyncCyclePeriod(10000);
+        _device->Start();
+
+        _servo = new StoberServo(IOBase::instance(), _device);
+
+
+        MachineController *controller = new MachineController(_mConfig, IOBase::instance(), ControllerBase::Instance());
+
+        _machine = new Machine();
+        _machine->InitMachine(controller);
+
+        _firstShow = false;
+    }
 }

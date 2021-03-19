@@ -4,9 +4,10 @@
 #include <QObject>
 typedef enum class Logic : int
 {
-    Portion=0,
-    Swiper=1,
-    Stuffing=2
+    Portion = 0,
+    Swiper = 1,
+    Stuffing = 2,
+    None = 3
 }Logic_t;
 
 class PressetConfig : public QObject
@@ -16,7 +17,7 @@ public:
 
 
     explicit PressetConfig(QObject *parent = nullptr);
-    PressetConfig(const PressetConfig &config);
+    //PressetConfig(const PressetConfig &config);
     Q_PROPERTY(QString PressetName READ PressetName WRITE setPressetName STORED true)
     Q_PROPERTY(int Temp READ Temp WRITE setTemp STORED true)
     Q_PROPERTY(int ClipperPulse READ ClipperPulse WRITE setClipperPulse STORED true)
@@ -78,8 +79,8 @@ public:
             return false;
 
         return true;
-
     }
+    PressetConfig *Copy();
 signals:
 
 private:

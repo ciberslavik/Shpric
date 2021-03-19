@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>689</width>
-    <height>320</height>
+    <height>309</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,6 +16,9 @@
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">
+     <property name="spacing">
+      <number>3</number>
+     </property>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
@@ -95,7 +98,7 @@
           </font>
          </property>
          <property name="text">
-          <string>шт/мин</string>
+          <string>%</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
@@ -112,7 +115,7 @@
          </property>
          <property name="sizeHint" stdset="0">
           <size>
-           <width>40</width>
+           <width>70</width>
            <height>20</height>
           </size>
          </property>
@@ -154,6 +157,9 @@
      </item>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <property name="spacing">
+        <number>6</number>
+       </property>
        <item>
         <widget class="QPushButton" name="btnMassMinus">
          <property name="sizePolicy">
@@ -248,7 +254,7 @@
          </property>
          <property name="sizeHint" stdset="0">
           <size>
-           <width>40</width>
+           <width>80</width>
            <height>20</height>
           </size>
          </property>
@@ -262,7 +268,7 @@
           </font>
          </property>
          <property name="text">
-          <string>Вес</string>
+          <string>Объем</string>
          </property>
         </widget>
        </item>
@@ -367,7 +373,7 @@
           </font>
          </property>
          <property name="text">
-          <string>об</string>
+          <string>мс</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
@@ -398,7 +404,7 @@
           </font>
          </property>
          <property name="text">
-          <string>Обороты перекрутчика</string>
+          <string>Импульс перекрутчика</string>
          </property>
         </widget>
        </item>
@@ -697,7 +703,7 @@
   <customwidget>
    <class>QClickableLineEdit</class>
    <extends>QLineEdit</extends>
-   <header>widgets/qclickablelineedit.h</header>
+   <header location="global">widgets/qclickablelineedit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

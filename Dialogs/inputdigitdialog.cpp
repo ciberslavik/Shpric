@@ -30,6 +30,7 @@ InputDigitDialog::InputDigitDialog(QLineEdit *edit, QWidget *parent) :
 
     QTimer::singleShot(0,ui->txtEdit,SLOT(selectAll()));
     ui->txtEdit->setFocus(Qt::FocusReason::MouseFocusReason);
+    _first_key = true;
 }
 
 InputDigitDialog::~InputDigitDialog()
@@ -40,9 +41,11 @@ InputDigitDialog::~InputDigitDialog()
 void InputDigitDialog::onDigitButtonPressed()
 {
     QPushButton *button = static_cast<QPushButton*>(sender());
-    if(ui->txtEdit->selectedText()==ui->txtEdit->text())
+    if(_first_key)
+    {
         ui->txtEdit->clear();
-
+        _first_key = false;
+    }
     //ui->txtEdit->setText(ui->txtEdit->text()+button->text());
     double new_value = (ui->txtEdit->text()+button->text()).toDouble();
     QString new_label = QString::number(new_value,'g',15);
@@ -63,6 +66,7 @@ void InputDigitDialog::onDeleteButtonPressed()
     QString new_value = ui->txtEdit->text();
     new_value.chop(1);
     ui->txtEdit->setText(new_value);
+    _first_key = false;
 }
 
 void InputDigitDialog::onOkButtonPressed()

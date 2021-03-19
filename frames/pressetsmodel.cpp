@@ -83,6 +83,7 @@ bool PressetsModel::insertRows(int row, int count, const QModelIndex &parent)
     beginInsertRows(parent, row, row + count - 1);
     // FIXME: Implement me!
     endInsertRows();
+    return true;
 }
 
 bool PressetsModel::insertColumns(int column, int count, const QModelIndex &parent)
@@ -90,6 +91,7 @@ bool PressetsModel::insertColumns(int column, int count, const QModelIndex &pare
     beginInsertColumns(parent, column, column + count - 1);
     // FIXME: Implement me!
     endInsertColumns();
+    return true;
 }
 
 bool PressetsModel::removeRows(int row, int count, const QModelIndex &parent)
@@ -97,6 +99,7 @@ bool PressetsModel::removeRows(int row, int count, const QModelIndex &parent)
     beginRemoveRows(parent, row, row + count - 1);
     // FIXME: Implement me!
     endRemoveRows();
+    return true;
 }
 
 bool PressetsModel::removeColumns(int column, int count, const QModelIndex &parent)
@@ -104,6 +107,7 @@ bool PressetsModel::removeColumns(int column, int count, const QModelIndex &pare
     beginRemoveColumns(parent, column, column + count - 1);
     // FIXME: Implement me!
     endRemoveColumns();
+    return true;
 }
 
 void PressetsModel::populateData(const QList<PressetConfig *> &pressets)
@@ -128,5 +132,10 @@ QString PressetsModel::logicToString(Logic logic) const
     case Logic::Stuffing:
         return "Набивка";
         break;
+    case Logic::None:
+        return "NULL";
+        break;
+    default:
+        return "";
     }
 }

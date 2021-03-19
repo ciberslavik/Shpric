@@ -18,7 +18,7 @@ PressetManagerFrame::PressetManagerFrame(QWidget *parent) :
 
     model->populateData(SettingStorage::instance()->Pressets());
 
-    ui->tableView->setModel(model);
+    ui->tableView->setModel((QAbstractItemModel*)model);
     ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
 }
 
@@ -31,7 +31,7 @@ void PressetManagerFrame::on_btnAddPresset_released()
 {
     SelectLogicDialog *selectLogic = new SelectLogicDialog(this);
 
-    EditPressetDialog *editPresset;
+    EditPressetDialog *editPresset = nullptr;
     //PressetConfig *config;
     if(selectLogic->exec()==QDialog::Accepted)
     {
@@ -45,19 +45,23 @@ void PressetManagerFrame::on_btnAddPresset_released()
         case Logic::Swiper:
             editPresset = new EditSwiperPressetDialog(this);
             break;
+        case Logic::None:
+            editPresset = nullptr;
+            break;
         }
 
-        if(editPresset->exec()==QDialog::Accepted)
+        if(editPresset!=nullptr)
         {
-            SettingStorage::instance()->SaveSettings();
-            model->insertRow(1);
-            model->populateData(SettingStorage::instance()->Pressets());
-            ui->tableView->setModel(model);
+            if(editPresset->exec()==QDialog::Accepted)
+            {
+                SettingStorage::instance()->SaveSettings();
+                model->insertRow(1);
+                model->populateData(SettingStorage::instance()->Pressets());
+                ui->tableView->setModel(model);
+            }
+            delete editPresset;
         }
-        delete editPresset;
     }
-
-
     delete selectLogic;
 }
 
@@ -71,7 +75,7 @@ void PressetManagerFrame::on_btnEditPresset_released()
     pressetName = index.sibling(index.row(),0).data().toString();
 
     PressetConfig *config = SettingStorage::instance()->getPressetConfig(pressetName);
-    EditPressetDialog *dialog;
+    EditPressetDialog *dialog = nullptr;
     switch (static_cast<Logic>(config->Logic())) {
     case Logic::Swiper:
         dialog=new EditSwiperPressetDialog(this);
@@ -82,16 +86,21 @@ void PressetManagerFrame::on_btnEditPresset_released()
     case Logic::Stuffing:
         dialog=new EditStuffingPressetDialog(this);
         break;
+    case Logic::None:
+        dialog = nullptr;
+        break;
     }
-
-    dialog->setConfig(config);
-    if(dialog->exec()==QDialog::Accepted)
+    if(dialog!=nullptr)
     {
+        dialog->setConfig(config);
+        if(dialog->exec()==QDialog::Accepted)
+        {
 
-        SettingStorage::instance()->SaveSettings();
-        model->insertRow(1);
-        model->populateData(SettingStorage::instance()->Pressets());
-        ui->tableView->setModel(model);
+            SettingStorage::instance()->SaveSettings();
+            model->insertRow(1);
+            model->populateData(SettingStorage::instance()->Pressets());
+            ui->tableView->setModel(model);
+        }
     }
 }
 

@@ -3,6 +3,8 @@
 
 #include <QGridLayout>
 #include <QMainWindow>
+#include <can/Device.h>
+#include <can/StoberServo.h>
 #include "frames/standbyframe.h"
 #include "machine.h"
 
@@ -18,7 +20,7 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    void setMachine(Machine *machine);
+    //void setMachine(Machine *machine);
 signals:
     //void
 private slots:
@@ -29,7 +31,7 @@ private slots:
     void onCycleDone();
 private:
     Ui::MainWindow *ui;
-
+    bool _firstShow = true;
     QMetaObject::Connection _enableOpConn;
     QMetaObject::Connection _configDoneConn;
     QMetaObject::Connection _configCalledConn;
@@ -37,8 +39,12 @@ private:
     QWidget *_prevFrame;
     QGridLayout *_currentGrid;
 
-    Machine *_machine;
+    Device *_device;
+    StoberServo *_servo;
 
+    MachineConfig *_mConfig;
+    Machine *_machine;
+    MachineController *_controller;
 
     QWidget *_mainFrame;
     QWidget *_selectSettingFrame;
@@ -52,6 +58,8 @@ private:
     void showStbyFrame();
     void showSelectSettingFrame();
     void setCurrentFrame(QWidget *frame);
+protected:
+    void showEvent(QShowEvent *e) override;
 };
 
 #endif // MAINWINDOW_H

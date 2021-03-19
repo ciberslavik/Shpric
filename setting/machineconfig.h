@@ -134,10 +134,6 @@ public:
         return "MachineConfig";
     }
 
-    // AbstractConfig interface
-public:
-    AbstractConfig *CreateDefaultConfig() override;
-
 };
 
 #endif // LOGICHELPER_H

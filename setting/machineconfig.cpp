@@ -8,7 +8,3 @@ MachineConfig::MachineConfig(QObject *parent):
 
 }
 
-
-AbstractConfig *MachineConfig::CreateDefaultConfig()
-{
-}

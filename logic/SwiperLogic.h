@@ -38,7 +38,6 @@ public slots:
     //void cycleDone() override;
 protected:
     bool CheckLogicPresset(PressetConfig *presset) override;
-    bool setPressetConfig() override;
 private slots:
     void pauseTimeout();
 

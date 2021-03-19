@@ -25,6 +25,7 @@ private slots:
 private:
     Ui::InputDigitDialog *ui;
     QLineEdit *_editText;
+    bool _first_key;
 };
 
 #endif // INPUTDIGITDIALOG_H

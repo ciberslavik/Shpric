@@ -52,7 +52,7 @@ void IOTestDialog::on_swiperMoveDone()
 
 void IOTestDialog::on_pedalToggle(bool state)
 {
-
+    Q_UNUSED(state)
 }
 
 void IOTestDialog::on_btnSwipe_released()

@@ -20,6 +20,9 @@ void StuffingLogic::CycleStop()
 
 LogicInfo StuffingLogic::getLogicInfo()
 {
+    LogicInfo info;
+    info.logicName = "Stuffing";
+    return info;
 }
 
 Logic_t StuffingLogic::Logic()
@@ -58,6 +61,4 @@ bool StuffingLogic::CheckLogicPresset(PressetConfig *presset)
         return false;
 }
 
-bool StuffingLogic::setPressetConfig()
-{
-}
+

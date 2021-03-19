@@ -90,7 +90,6 @@ protected:
     AbstractLogic(MachineController *controller);
 
     virtual bool CheckLogicPresset(PressetConfig *presset) = 0;
-    virtual bool setPressetConfig() = 0;
     virtual void onLogicModeChanged(LogicMode_t logicMode)
     {
         Q_UNUSED(logicMode)

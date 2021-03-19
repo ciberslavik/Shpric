@@ -5,13 +5,15 @@ QT      += serialport
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++11
+CONFIG += thread
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
-
+DEFINES += DEBUG_CONSOLE_ERR
+#DEFINES += DEBUG_CONSOLE_WAR
 # You can also make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
@@ -35,10 +37,28 @@ SOURCES += \
     IO/iomodbus.cpp \
     IO/iomodbusworker.cpp \
     IO/iopin.cpp \
+    can/CallbackProcessor.cpp \
+    can/Device.cpp \
     can/MyMaster.c \
+    can/ServoData.cpp \
+    can/StoberServo.cpp \
     can/controllerbase.cpp \
     can/fakeservo.cpp \
-    can/servocontroller.cpp \
+    can/festival/dcf.c \
+    can/festival/emcy.c \
+    can/festival/lifegrd.c \
+    can/festival/lss.c \
+    can/festival/nmtMaster.c \
+    can/festival/nmtSlave.c \
+    can/festival/objacces.c \
+    can/festival/pdo.c \
+    can/festival/sdo.c \
+    can/festival/states.c \
+    can/festival/symbols.c \
+    can/festival/sync.c \
+    can/festival/timer.c \
+    can/festival/timers_unix.c \
+    can/festival/unix.c \
     frames/canconfigframe.cpp \
     frames/configframebase.cpp \
     frames/framebase.cpp \
@@ -93,10 +113,36 @@ HEADERS += \
     IO/iomodbusworker.h \
     IO/iopin.h \
     IO/ioworkerconfig.h \
+    can/CallbackProcessor.h \
+    can/Device.h \
     can/MyMaster.h \
+    can/ServoData.h \
+    can/StoberServo.h \
     can/controllerbase.h \
     can/fakeservo.h \
-    can/servocontroller.h \
+    can/festival/inc/applicfg.h \
+    can/festival/inc/can.h \
+    can/festival/inc/can_driver.h \
+    can/festival/inc/canfestival.h \
+    can/festival/inc/config.h \
+    can/festival/inc/data.h \
+    can/festival/inc/dcf.h \
+    can/festival/inc/def.h \
+    can/festival/inc/emcy.h \
+    can/festival/inc/lifegrd.h \
+    can/festival/inc/lss.h \
+    can/festival/inc/nmtMaster.h \
+    can/festival/inc/nmtSlave.h \
+    can/festival/inc/objacces.h \
+    can/festival/inc/objdictdef.h \
+    can/festival/inc/pdo.h \
+    can/festival/inc/sdo.h \
+    can/festival/inc/states.h \
+    can/festival/inc/sync.h \
+    can/festival/inc/sysdep.h \
+    can/festival/inc/timers.h \
+    can/festival/inc/timers_driver.h \
+    can/festival/inc/timerscfg.h \
     frames/canconfigframe.h \
     frames/configframebase.h \
     frames/framebase.h \
@@ -158,13 +204,14 @@ FORMS += \
 #LIBS += /home/cibers/LinuxProjects/can_test/build-CanFestival-3-de1fc3261f21-Desktop_Qt_5_9_9_GCC_64bit-Debug/libcanfestival.a
 ##LIBS += /home/cibers/LinuxProjects/can_test/build-CanFestival-3-de1fc3261f21-AGAVA40_ARM7_Qt_5_9_6-Debug/libcanfestival.a
 #LIBS += /home/cibers/LinuxProjects/can_test/build-CanFestival-3-de1fc3261f21-AGAVA40_ARM7_Qt_5_9_6-RelWithDebInfo/libcanfestival.a
-LIBS += /home/cibers/LinuxProjects/can_test/build-CanFestival-3-de1fc3261f21-AGAVA40_ARM7_Qt_5_9_6-Release/libcanfestival.a
+#LIBS += /home/cibers/LinuxProjects/can_test/build-CanFestival-3-de1fc3261f21-AGAVA40_ARM7_Qt_5_9_6-Debug/libcanfestival.a
+#LIBS += /home/cibers/LinuxProjects/can_test/build-CanFestival-3-de1fc3261f21-AGAVA40_ARM7_Qt_5_9_6-Release/libcanfestival.a
 LIBS += -ldl -lrt
 
-INCLUDEPATH += /home/cibers/LinuxProjects/can_test/CanFestival-3-de1fc3261f21/include \
-        /home/cibers/LinuxProjects/can_test/CanFestival-3-de1fc3261f21/include/unix \
-        /home/cibers/LinuxProjects/can_test/CanFestival-3-de1fc3261f21/include/timers_unix \
-        /mnt/_qtsdk/qt-5.9.6/sysroots/armv7ahf-neon-linux-gnueabi/usr/include/c++/7.2.1
+#INCLUDEPATH += /home/cibers/LinuxProjects/can_test/CanFestival-3-de1fc3261f21/include \
+#        /home/cibers/LinuxProjects/can_test/CanFestival-3-de1fc3261f21/include/unix \
+#        /home/cibers/LinuxProjects/can_test/CanFestival-3-de1fc3261f21/include/timers_unix \
+INCLUDEPATH +=         /mnt/_qtsdk/qt-5.9.6/sysroots/armv7ahf-neon-linux-gnueabi/usr/include/c++/7.2.1
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

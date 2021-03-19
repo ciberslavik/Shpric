@@ -16,7 +16,7 @@ class AbstractConfig : public QObject
     Q_OBJECT
 public:
     virtual QString ConfigName() = 0;
-    virtual AbstractConfig *CreateDefaultConfig() = 0;
+    //virtual AbstractConfig *CreateDefaultConfig() = 0;
 
     void Save();
     void Load();

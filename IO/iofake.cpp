@@ -31,14 +31,17 @@ void IOFake::SwiperMove(int moveTime)
 
 void IOFake::VacuumOn(bool state)
 {
+    Q_UNUSED(state)
 }
 
 void IOFake::FCPowerOn(bool state)
 {
+    Q_UNUSED(state)
 }
 
 void IOFake::FCEnable(bool state)
 {
+    Q_UNUSED(state)
 }
 
 
@@ -55,23 +58,29 @@ void IOFake::swiperTimeout()
 
 QBitArray IOFake::getOutputs()
 {
+    return QBitArray(16);
 }
 
 void IOFake::setOutputs(const QBitArray &outputs)
 {
+    Q_UNUSED(outputs)
 }
+
 
 
 bool IOFake::Vacuum()
 {
+    return false;
 }
 
 
 void IOFake::setVacuum(double value)
 {
+    Q_UNUSED(value)
 }
 
 
 void IOFake::SwiperOn(bool state)
 {
+    Q_UNUSED(state)
 }

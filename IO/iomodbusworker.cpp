@@ -17,7 +17,7 @@ void IOModbusWorker::Init(WorkerConfig *config)
 {
     _workerConf = config;
     //Configure PID
-    _pid=new PIRegulator(config->cycleTime * 5,100,0,10,2,3);
+    _pid=new PIRegulator(10, 2, 3);
 }
 
 QBitArray &IOModbusWorker::getDigitalOutputs()
@@ -262,7 +262,7 @@ void IOModbusWorker::Process()
     {
         _vacuum_value = ((static_cast<double>(_analog)/10)-3);
 
-        _vacuum_pwm += (_pid->calculate(_vacuum_setpoint,_vacuum_value)*-1);
+        _vacuum_pwm += (_pid->calculate(_vacuum_setpoint, _vacuum_value)*-1);
         if(_vacuum_pwm>=1023)
         {
             _vacuum_pwm = 1023;

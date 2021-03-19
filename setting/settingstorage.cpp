@@ -2,8 +2,11 @@
 SettingStorage *SettingStorage::_instance;
 QMutex SettingStorage::_mutex;
 
-SettingStorage::SettingStorage(QObject *parent) : QObject(parent),_lastPresset(nullptr)
+SettingStorage::SettingStorage(QObject *parent) : QObject(parent)
 {
+    for(int i=0;i<3;i++)
+        _lastPressets[i] = nullptr;
+
     _configDir = QDir(QDir::cleanPath(QCoreApplication::applicationDirPath()+QDir::separator()+"config"));
     if(!_configDir.exists())
     {
@@ -70,15 +73,15 @@ PressetConfig *SettingStorage::getFirsLogic(Logic logic)
     return presset;
 }
 
-PressetConfig *SettingStorage::getLastPresset()
+PressetConfig *SettingStorage::getLastPresset(Logic logic)
 {
-    return _lastPresset;
+    return _lastPressets[(int)logic];
 }
 
 void SettingStorage::setLastPresset(PressetConfig *lastPresset)
 {
-   _lastPresset = lastPresset;
-   SaveSettings();
+    _lastPressets[lastPresset->Logic()] = lastPresset;
+    SaveSettings();
 }
 
 PressetConfig *SettingStorage::createPressetConfig(QString pressetName)
@@ -101,7 +104,7 @@ void SettingStorage::addPresset(PressetConfig *presset, QString name)
 {
     if(!_pressets.contains(name))
     {
-        _pressets.insert(name, new PressetConfig(presset));
+        _pressets.insert(name, presset->Copy());
     }
     else
     {
@@ -127,10 +130,10 @@ QJsonObject SettingStorage::Serialize(const QObject *obj)
 
     for(int i=0; i<obj->metaObject()->propertyCount(); ++i)
     {
-       if((obj->metaObject()->property(i).isStored())&&(strcmp(obj->metaObject()->property(i).name(), "objectName")))
-       {
-          map.insert(obj->metaObject()->property(i).name(),obj->metaObject()->property(i).read(obj));
-       }
+        if((obj->metaObject()->property(i).isStored())&&(strcmp(obj->metaObject()->property(i).name(), "objectName")))
+        {
+            map.insert(obj->metaObject()->property(i).name(),obj->metaObject()->property(i).read(obj));
+        }
     }
     return QJsonDocument::fromVariant(map).object();
 }
@@ -164,10 +167,13 @@ void SettingStorage::SaveSettings()
 
     SaveJsonToFile(_pressetFileInfo.filePath(),pressetsDoc.toJson(QJsonDocument::Indented));
 
-    if(_lastPresset != nullptr)
+    for(int i=0;i<3;i++)
     {
-        QJsonDocument lastPressetDoc(Serialize(_lastPresset));
-        SaveJsonToFile(_configDir.path()+QDir::separator()+"LastPresset.json", lastPressetDoc.toJson(QJsonDocument::Indented));
+        if(_lastPressets[i] != nullptr)
+        {
+            QJsonDocument lastPressetDoc(Serialize(_lastPressets[i]));
+            SaveJsonToFile(_configDir.path()+QDir::separator()+"LastPresset" + QString::number(i) + ".json", lastPressetDoc.toJson(QJsonDocument::Indented));
+        }
     }
     //Save modbus.json
     //QJsonDocument modbusDoc = QJsonDocument(Serialize(_modbus));
@@ -206,19 +212,24 @@ void SettingStorage::LoadSettings()
         Deserialize(cfg,obj.toObject());
         _pressets.insert(cfg->PressetName(),cfg);
     }
-    QString lastPressetFile = _configDir.path()+QDir::separator()+"LastPresset.json";
-
-    QJsonDocument lastPressetDoc = QJsonDocument::fromJson(readJsonFromFile(lastPressetFile));
-    _lastPresset = new PressetConfig();
-    Deserialize(_lastPresset,lastPressetDoc.object());
-
+    for(int i=0;i<3;i++)
+    {
+        QString lastPressetFile = _configDir.path()+QDir::separator()+"LastPresset" + QString::number(i) + ".json";
+        if(QFile::exists(lastPressetFile))
+        {
+            QJsonDocument lastPressetDoc = QJsonDocument::fromJson(readJsonFromFile(lastPressetFile));
+            //_lastPressets = new PressetConfig*[3];
+            _lastPressets[i] = new PressetConfig(this);
+            Deserialize(_lastPressets[i],lastPressetDoc.object());
+        }
+    }
     //Read modbus config
-   // QJsonDocument modbusDoc = QJsonDocument::fromJson(readJsonFromFile(_modbusFileInfo.filePath()));
+    // QJsonDocument modbusDoc = QJsonDocument::fromJson(readJsonFromFile(_modbusFileInfo.filePath()));
 
     //if(!_modbus)
-   //     _modbus = new ModbusConfig(this);
+    //     _modbus = new ModbusConfig(this);
 
-   // Deserialize(_modbus,modbusDoc.object());
+    // Deserialize(_modbus,modbusDoc.object());
 }
 
 void SettingStorage::SaveJsonToFile(const QString &filePath, const QString &json)

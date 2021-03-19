@@ -59,7 +59,8 @@ void Machine::LoadLogicPresset(PressetConfig *presset)
             {
                 deleteCurrentLogic();
                 _currentLogic = createLogic(presset);
-                _currentLogic->LoadPresset(presset);
+                if(_currentLogic!=nullptr)
+                    _currentLogic->LoadPresset(presset);
             }
             else
             {
@@ -70,9 +71,11 @@ void Machine::LoadLogicPresset(PressetConfig *presset)
     else
     {
         _currentLogic = createLogic(presset);
-        _currentLogic->LoadPresset(presset);
+        if(_currentLogic!=nullptr)
+            _currentLogic->LoadPresset(presset);
     }
-    _controller->setSpeed(presset->Temp());
+    if(_currentLogic!=nullptr)
+        _controller->setSpeed(presset->Temp());
 }
 
 void Machine::setVacuum(double value)
@@ -161,8 +164,12 @@ AbstractLogic *Machine::createLogic(PressetConfig *config)
     case Logic::Stuffing:
         logic = createStuffingLogic();
         break;
+       case Logic::None:
+        logic = nullptr;
+        break;
     }
-    logic->LoadPresset(config);
+    if(logic!=nullptr)
+        logic->LoadPresset(config);
     return logic;
 }
 

@@ -27,7 +27,7 @@ public slots:
     void PedalToggled(bool state) override;
 protected:
     bool CheckLogicPresset(PressetConfig *presset) override;
-    bool setPressetConfig() override;
+
 
     bool _prevPedalState;
 };

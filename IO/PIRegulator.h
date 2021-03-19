@@ -24,7 +24,7 @@ class PIDImpl;
 class PIRegulator
 {
 public:
-    PIRegulator(double dt, double max, double min, int Kp, int Kd, int Ki);
+    PIRegulator(int Kp, int Kd, int Ki);
 
     qint16  calculate(double setpoint,double value);
     void reset_itegrator();

@@ -6,18 +6,6 @@ PressetConfig::PressetConfig(QObject *parent) : QObject(parent),
 
 }
 
-PressetConfig::PressetConfig(const PressetConfig &config)
-{
-    _pressetName = config._pressetName;
-    _temp = config._temp;
-    _mass = config._mass;
-    _firstPortion = config._firstPortion;
-    _clipperPulse = config._clipperPulse;
-    _swiperPulse = config._swiperPulse;
-    _logic = config._logic;
-    _pause = config._pause;
-    _reverse = config._reverse;
-}
 
 void PressetConfig::setSwiperPulse(int value)
 {
@@ -98,4 +86,19 @@ void PressetConfig::setLogic(int mode)
         _logic = mode;
         _isModified = true;
     }
+}
+
+PressetConfig *PressetConfig::Copy()
+{
+    PressetConfig *config = new PressetConfig(this->parent());
+    config->_pressetName = _pressetName;
+    config->_temp = _temp;
+    config->_mass = _mass;
+    config->_firstPortion=_firstPortion;
+    config->_clipperPulse = _clipperPulse;
+    config->_swiperPulse = _swiperPulse;
+    config->_logic = _logic;
+    config->_pause = _pause;
+    config->_reverse = _reverse;
+    return config;
 }

@@ -4,7 +4,7 @@
 #ifndef MYMASTER_H
 #define MYMASTER_H
 
-#include "data.h"
+#include "can/festival/inc/data.h"
 
 /* Prototypes of function provided by object dictionnary */
 UNS32 MyMaster_valueRangeTest (UNS8 typeValue, void * value);
